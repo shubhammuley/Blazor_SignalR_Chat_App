@@ -5,6 +5,27 @@
 
 <PageTitle>ChatPage</PageTitle>
 
+<div class="row">
+    <div class="col-ld-7">
+        <div class="card">
+            <div class="card-header">Chat App</div>
+            <div class="card-body">
+            </div>
+            <div class="card-footer">
+                @if (!IsConnected)
+                {
+                    <div class="alert alert-danger"> Chat Disconnected </div>
+                }
+                else
+                {
+                    <div class="alert alert-success"> Chat Connected </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     private HubConnection? hubConnection;
     private List<string> Messages = [];
