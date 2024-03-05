@@ -1,3 +1,4 @@
+using BlazorChatWebApp.ChatHubs;
 using BlazorChatWebApp.Client.Pages;
 using BlazorChatWebApp.Components;
 
@@ -6,8 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -29,5 +34,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorChatWebApp.Client._Imports).Assembly);
+
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
