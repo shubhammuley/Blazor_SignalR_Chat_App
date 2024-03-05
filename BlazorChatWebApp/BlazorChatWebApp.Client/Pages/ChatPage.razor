@@ -1,7 +1,22 @@
 ﻿@page "/chat"
+@using Microsoft.AspNetCore.SignalR.Client
 @rendermode InteractiveWebAssembly
+@inject NavigationManager NavManager
+
 <PageTitle>ChatPage</PageTitle>
 
 @code {
+    private HubConnection? hubConnection;
+    private List<string> Messages = [];
 
+    private string? userName;
+    public string Message;
+    private DateTime Date;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(NavManager.ToAbsoluteUri("/chathub")).Build();
+    }
 }
