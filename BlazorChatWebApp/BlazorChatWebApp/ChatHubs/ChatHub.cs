@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ChatModels;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BlazorChatWebApp.ChatHubs
 {
     public class ChatHub : Hub
     {
 
-        public async Task SendMessage(string userName, string message, DateTime date)
+        public async Task SendMessage(Chat chat)
         {
-            await Clients.All.SendAsync("ReceiveMessage",userName, message, date);
+            await Clients.All.SendAsync("ReceiveMessage",chat);
         }
 
 
