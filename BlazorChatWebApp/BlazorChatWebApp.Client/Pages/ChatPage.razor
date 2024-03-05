@@ -11,12 +11,28 @@
 
     private string? userName;
     public string Message;
-    private DateTime Date;
+    private DateTime Date = DateTime.Now;
 
 
     protected async override Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
         .WithUrl(NavManager.ToAbsoluteUri("/chathub")).Build();
+
+
+        hubConnection.On<string, string, DateTime>("ReceiveMessage", (userName, Message, Date) =>
+        {
+            var concatMessage = $"{Date}{Environment.NewLine}{userName}{Environment.NewLine}{Message}";
+            Messages.Add(concatMessage);
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
     }
+
+    private bool IsConnected =>
+    hubConnection!.State == HubConnectionState.Connected;
+
+    Task Send() =>
+    hubConnection!.SendAsync("SendMessage", userName, Message, Date);
 }
