@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorChatWebApp", "BlazorC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorChatWebApp.Client", "BlazorChatWebApp\BlazorChatWebApp.Client\BlazorChatWebApp.Client.csproj", "{6724221F-A9CC-4890-BDD2-BACF0ECD0869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatModels", "ChatModels\ChatModels.csproj", "{EB188214-7546-42BB-8CD3-46716A69CE8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6724221F-A9CC-4890-BDD2-BACF0ECD0869}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6724221F-A9CC-4890-BDD2-BACF0ECD0869}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6724221F-A9CC-4890-BDD2-BACF0ECD0869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB188214-7546-42BB-8CD3-46716A69CE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB188214-7546-42BB-8CD3-46716A69CE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB188214-7546-42BB-8CD3-46716A69CE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB188214-7546-42BB-8CD3-46716A69CE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
