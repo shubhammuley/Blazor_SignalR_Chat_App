@@ -10,6 +10,21 @@
         <div class="card">
             <div class="card-header">Chat App</div>
             <div class="card-body">
+                <ul class="list-group">
+                    @foreach(var message in Messages)
+                    {
+                        <li class="mb-2">@message</li>
+                    }
+                </ul>
+
+                <div class="border-primary">
+                    <div class="hstack gap-2 mb-4">
+                        <input type="text" class="form-control w-25" @bind="userName"/>
+                        <textarea class="form-control w-25" @bind="Message"/>
+                    </div>
+                    <button class="btn btn-success" @onclick="Send">Send Message</button>
+
+                </div>
             </div>
             <div class="card-footer">
                 @if (!IsConnected)
@@ -45,9 +60,10 @@
         {
             var concatMessage = $"{Date}{Environment.NewLine}{userName}{Environment.NewLine}{Message}";
             Messages.Add(concatMessage);
-            StateHasChanged();
+            InvokeAsync(()=> StateHasChanged());
         });
 
+      
         await hubConnection.StartAsync();
     }
 
