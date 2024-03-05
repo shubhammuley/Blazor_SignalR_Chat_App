@@ -1,8 +1,11 @@
 ﻿@page "/chat"
+@implements IDisposable
+@using BlazorChatWebApp.Client.ChatServices
 @using ChatModels
+@inject ChatService chatService
 @using Microsoft.AspNetCore.SignalR.Client
 @rendermode InteractiveWebAssembly
-@inject NavigationManager NavManager
+
 
 <PageTitle>ChatPage</PageTitle>
 
@@ -12,7 +15,7 @@
             <div class="card-header">Chat App</div>
             <div class="card-body">
                 <ul class="list-group">
-                    @foreach(var chat in Chats)
+                    @foreach(var chat in chatService.Chats)
                     {
                         <li class="list-group-item mb-2">
                             @chat.DateTime.Date.ToString("dd/MMM/yy")
@@ -37,7 +40,7 @@
                 
             </div>
             <div class="card-footer fw-bold">
-                @if (!IsConnected)
+                @if (!chatService.IsConnected)
                 {
                     <div class="alert alert-danger"> Chat Disconnected </div>
                 }
@@ -54,46 +57,18 @@
 @code {
 
     public static string? StoredUserName { get; set; }
-
-    private HubConnection? hubConnection;
-    private List<Chat> Chats = [];
-
     private Chat Chat = new();
 
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-        .WithUrl(NavManager.ToAbsoluteUri("/chathub")).Build();
+        chatService.InvokeChatDisplay += StateHasChanged;
+        await chatService.StartConnectionAsync();
+        chatService.ReceiveMessage();
 
-
-        hubConnection.On<Chat>("ReceiveMessage", (Chat) =>
-        {
-
-            Chats.Add(Chat);
-            InvokeAsync(()=> StateHasChanged());
-        });
-
-
-        await hubConnection.StartAsync();
     }
 
-    private bool IsConnected =>
-    hubConnection!.State == HubConnectionState.Connected;
+    async void SendMessageClicked() => await chatService.SendChat(Chat);
 
-    void Send()
-    {
-        Chat.UserName ??= StoredUserName;
-        hubConnection!.SendAsync("SendMessage",Chat);
-    }
-
-    void SendMessageClicked()
-    {
-        Chat.DateTime = DateTime.Now;
-        if (Chat.UserName != "")
-            StoredUserName = Chat.UserName;
-
-            Send();
-
-    }
+    public void Dispose() => chatService.InvokeChatDisplay -= StateHasChanged;
 }
