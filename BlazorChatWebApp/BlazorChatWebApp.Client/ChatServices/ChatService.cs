@@ -33,9 +33,8 @@ namespace BlazorChatWebApp.Client.ChatServices
             IsConnected = _hubConnection!.State == HubConnectionState.Connected;
         }
 
-        public Task SendChat(Chat chat)
-        {
+        public Task SendChat(Chat chat) =>        
             _hubConnection!.SendAsync("SendMessage", chat);
-        }
+        
     }
 }
