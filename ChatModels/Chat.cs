@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 namespace ChatModels
 {
 
-    [Keyless]
+
     public class Chat
     {
+
+        public int Id { get; set; }
         [Required]
         public string? Message { get; set; }
 
