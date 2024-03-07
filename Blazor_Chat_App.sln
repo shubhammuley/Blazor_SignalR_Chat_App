@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorChatWebApp", "BlazorChatWebApp\BlazorChatWebApp\BlazorChatWebApp.csproj", "{7687D62C-7BD9-4A7D-8A2C-81071B046ABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChatWebApp", "BlazorChatWebApp\BlazorChatWebApp\BlazorChatWebApp.csproj", "{7687D62C-7BD9-4A7D-8A2C-81071B046ABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorChatWebApp.Client", "BlazorChatWebApp\BlazorChatWebApp.Client\BlazorChatWebApp.Client.csproj", "{6724221F-A9CC-4890-BDD2-BACF0ECD0869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChatWebApp.Client", "BlazorChatWebApp\BlazorChatWebApp.Client\BlazorChatWebApp.Client.csproj", "{6724221F-A9CC-4890-BDD2-BACF0ECD0869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatModels", "ChatModels\ChatModels.csproj", "{EB188214-7546-42BB-8CD3-46716A69CE8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatModels", "ChatModels\ChatModels.csproj", "{EB188214-7546-42BB-8CD3-46716A69CE8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
