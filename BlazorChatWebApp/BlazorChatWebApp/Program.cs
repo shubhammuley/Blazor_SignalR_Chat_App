@@ -2,6 +2,8 @@ using BlazorChatWebApp.ChatHubs;
 using BlazorChatWebApp.Client.ChatServices;
 
 using BlazorChatWebApp.Components;
+using BlazorChatWebApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ChatService>();
-
+builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
