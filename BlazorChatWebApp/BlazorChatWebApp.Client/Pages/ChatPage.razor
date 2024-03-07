@@ -76,7 +76,7 @@
         await _hubConnection.StartAsync();
 
         var httpClient = new HttpClient();
-        Chats = await httpClient.GetFromJsonAsync<List<Chat>>("https://localhost:7084/api/chat");
+        Chats = await httpClient.GetFromJsonAsync<List<Chat>>("https://localhost:7130/api/chat");
     }
 
     public bool IsConnected => _hubConnection!.State == HubConnectionState.Connected;
