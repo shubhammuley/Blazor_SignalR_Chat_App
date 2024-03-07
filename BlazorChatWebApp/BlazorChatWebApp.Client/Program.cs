@@ -7,6 +7,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
 
 builder.Services.AddScoped(
