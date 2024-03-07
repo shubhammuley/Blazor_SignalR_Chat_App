@@ -15,6 +15,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddDbContext<AppDbContext>(
     o => o.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddControllers();
 builder.Services.AddScoped<ChatRepo>();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ChatService>();
@@ -45,6 +46,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorChatWebApp.Client._Imports).Assembly);
+
+app.MapControllers();
 
 app.MapHub<ChatHub>("/chathub");
 
