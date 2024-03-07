@@ -13,7 +13,7 @@ namespace BlazorChatWebApp.Authentication
                 =>
             {
                 await signInManager.SignOutAsync();
-                return TypedResults.LocalRedirect("/");
+                return TypedResults.LocalRedirect("/Account/Login");
             });
             return accountGroup;
         }
