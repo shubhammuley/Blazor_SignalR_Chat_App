@@ -2,7 +2,7 @@
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 
-
+@using BlazorChatWebApp.Client.DTOs
 @using BlazorChatWebApp.Client.ChatServices
 @using ChatModels
 @inject NavigationManager navigationManager
@@ -13,6 +13,19 @@
 <PageTitle>ChatPage</PageTitle>
 
 <div class="row">
+
+    <div class="col-lg-2">
+        <ul class="list-group">
+            @if(AvailableUsers != null)
+            {
+                foreach(var u in AvailableUsers)
+                {
+                    <li class="list-group-item">@u.Fullname</li>
+                }
+            }
+        </ul>
+    </div>
+
     <div class="col-ld-7">
         <div class="card">
             <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
@@ -64,6 +77,7 @@
 </div>
 
 @code {
+    public List<AvailableUserDTO> AvailableUsers { get; set; } = [];
 
     private Chat Chat = new();
     private HubConnection? _hubConnection;
@@ -82,10 +96,18 @@
             InvokeAsync(() => StateHasChanged());
         });
 
+
+        _hubConnection.On<List<AvailableUserDTO>>("NotifyAllClients", (users) =>
+     {
+         AvailableUsers = users;
+         InvokeAsync(() => StateHasChanged());
+     });
+
         await _hubConnection.StartAsync();
 
         var httpClient = new HttpClient();
         Chats = await httpClient.GetFromJsonAsync<List<Chat>>("https://localhost:7130/api/chat");
+        AvailableUsers = await httpClient.GetFromJsonAsync<List<AvailableUserDTO>>("https://localhost:7130/api/chat/users");
     }
 
     public bool IsConnected => _hubConnection!.State == HubConnectionState.Connected;

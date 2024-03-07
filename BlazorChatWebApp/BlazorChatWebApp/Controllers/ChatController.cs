@@ -13,5 +13,11 @@ namespace BlazorChatWebApp.Controllers
         public async Task<ActionResult<List<Chat>>> GetChatAsync() =>
             Ok(await chatRepo.GetChatAsync());
 
+
+
+        [HttpGet("users")]
+        public async Task<ActionResult<List<Chat>>> GetAvailableUsersAsync() =>
+            Ok(await chatRepo.GetAvailableUserAsync());
+
     }
 }
