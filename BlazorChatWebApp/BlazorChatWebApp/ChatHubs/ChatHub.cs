@@ -1,4 +1,5 @@
 ﻿using BlazorChatWebApp.Migrations.Repos;
+using BlazorChatWebApp.Models;
 using ChatModels;
 using Microsoft.AspNetCore.SignalR;
 
@@ -13,6 +14,15 @@ namespace BlazorChatWebApp.ChatHubs
             await Clients.All.SendAsync("ReceiveMessage",chat);
         }
 
+        public async Task AddAvailableUserAsync(AvailableUser availableUser)
+        {
+            availableUser.ConnectionId = Context.ConnectionId;
+            await chatRepo.AddAvailableUserAsync(availableUser);
+
+            var users = chatRepo.GetAvailableUserAsync();
+            //notify all clients 
+            await Clients.All.SendAsync("NotifyAllClients", users);
+        }
 
 
 
