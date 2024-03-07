@@ -5,6 +5,7 @@ using BlazorChatWebApp.Client.ChatServices;
 using BlazorChatWebApp.Components;
 using BlazorChatWebApp.Data;
 using BlazorChatWebApp.Migrations.Repos;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,9 @@ builder.Services.AddAuthentication(o =>
     o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 }
     ).AddIdentityCookies();
+
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, PersistingServerAuthenticationStateProvider>();
 
 var app = builder.Build();
 
