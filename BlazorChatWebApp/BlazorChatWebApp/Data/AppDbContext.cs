@@ -1,5 +1,5 @@
 ﻿using BlazorChatWebApp.Authentication;
-using BlazorChatWebApp.Models;
+using BlazorChatWebApp.Client.DTOs;
 using ChatModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

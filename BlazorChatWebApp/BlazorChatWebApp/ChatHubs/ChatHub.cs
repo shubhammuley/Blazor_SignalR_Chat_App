@@ -1,5 +1,5 @@
-﻿using BlazorChatWebApp.Migrations.Repos;
-using BlazorChatWebApp.Models;
+﻿using BlazorChatWebApp.Client.DTOs;
+using BlazorChatWebApp.Migrations.Repos;
 using ChatModels;
 using Microsoft.AspNetCore.SignalR;
 

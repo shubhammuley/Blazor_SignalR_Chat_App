@@ -1,12 +1,13 @@
 ﻿@page "/chat"
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
-
+@using Microsoft.AspNetCore.Components.Authorization
 @using BlazorChatWebApp.Client.DTOs
 @using BlazorChatWebApp.Client.ChatServices
 @using ChatModels
 @inject NavigationManager navigationManager
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
 @rendermode InteractiveWebAssembly
 
 
@@ -77,6 +78,10 @@
 </div>
 
 @code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState>  AuthenticationState{ get; set; }
+
     public List<AvailableUserDTO> AvailableUsers { get; set; } = [];
 
     private Chat Chat = new();
@@ -103,12 +108,28 @@
          InvokeAsync(() => StateHasChanged());
      });
 
+        await GetUserAuthetication();
         await _hubConnection.StartAsync();
 
         var httpClient = new HttpClient();
         Chats = await httpClient.GetFromJsonAsync<List<Chat>>("https://localhost:7130/api/chat");
         AvailableUsers = await httpClient.GetFromJsonAsync<List<AvailableUserDTO>>("https://localhost:7130/api/chat/users");
     }
+
+    private async Task GetUserAuthetication()
+    {
+        var user = (await AuthenticationState).User;
+
+        if(user.Identity!.IsAuthenticated == true)
+        {
+            await _hubConnection!.SendAsync("AddAvailableUserAsync", new AvailableUser()
+            {
+                UserId = user.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier)!.Value
+            }           
+            );
+        }
+    }
+
 
     public bool IsConnected => _hubConnection!.State == HubConnectionState.Connected;
 
