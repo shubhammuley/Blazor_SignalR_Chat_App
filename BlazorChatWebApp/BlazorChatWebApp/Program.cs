@@ -68,5 +68,5 @@ app.MapRazorComponents<App>()
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chathub");
-
+app.MapAdditionalIdentityEndpoint();
 app.Run();
