@@ -3,6 +3,7 @@ using BlazorChatWebApp.Client.ChatServices;
 
 using BlazorChatWebApp.Components;
 using BlazorChatWebApp.Data;
+using BlazorChatWebApp.Migrations.Repos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddDbContext<AppDbContext>(
+    o => o.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<ChatRepo>();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ChatService>();
-builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
 
 var app = builder.Build();
 
