@@ -74,7 +74,7 @@
                 Fullname = registerModel.Fullname,
                 Email = registerModel.Email,
                 PasswordHash = registerModel.Password,
-                UserName = registerModel.Email
+                UserName = registerModel.Fullname
             };
 
         var result = await userManager.CreateAsync(appUser, registerModel.Password);
