@@ -1,10 +1,5 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Identity
-@using BlazorChatWebApp.Authentication
-@inject UserManager<AppUser> userManager
-@inject SignInManager<AppUser> signInManager
-@inject NavigationManager navManager
-
+﻿
+@page "/Account/Login"
 
 <h1>Log in</h1>
 
@@ -12,7 +7,7 @@
     <div class="col-md-4">
         @(message != ""? message:"")
         <section>
-            <EditForm Model="loginModel" method="post" OnValidSubmit="LoginAsync" FormName="LoginForm" />
+            <EditForm Model="loginModel" method="post" OnValidSubmit="LoginAsync" FormName="LoginForm" >
                 <DataAnnotationsValidator />
                 <h2>Use a local account to log in</h2>
                 <hr/>
@@ -39,7 +34,7 @@
 
                 </button>
             </div>
-
+            </EditForm>
         </section>
 
     </div>
@@ -48,6 +43,8 @@
 
 @code {
     string message = "";
+
+    [SupplyParameterFromForm]
     private LoginModel loginModel { get; set; } = new();
 
     async Task LoginAsync()

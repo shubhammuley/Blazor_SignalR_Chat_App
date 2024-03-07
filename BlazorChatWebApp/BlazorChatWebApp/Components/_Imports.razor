@@ -9,3 +9,11 @@
 @using BlazorChatWebApp
 @using BlazorChatWebApp.Client
 @using BlazorChatWebApp.Components
+
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using BlazorChatWebApp.Authentication
+@inject UserManager<AppUser> userManager
+@inject SignInManager<AppUser> signInManager
+@inject NavigationManager navManager

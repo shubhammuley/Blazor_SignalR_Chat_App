@@ -1,0 +1,106 @@
+﻿
+@page "/Account/Register"
+
+<h3>Register</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        @(message != "" ? message : "")
+        <section>
+            <EditForm Model="registerModel" method="post" OnValidSubmit="RegisterAsync" FormName="register" >
+            <DataAnnotationsValidator />
+            <h2>Use a local account to log in</h2>
+            <hr />
+            <ValidationSummary class="text-danger" role="alert" />
+
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="registerModel.Fullname" class="form-control" autocomplete="name"
+                           area-required="true" placeholder="oh" />
+                <label for="name" class="form-label">Full Name</label>
+                <ValidationMessage For="()=>registerModel.Fullname" class="text-danger" />
+            </div>
+
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="registerModel.Email" class="form-control" autocomplete="name"
+                           area-required="true" placeholder="oh" />
+                <label for="email" class="form-label">Email</label>
+                <ValidationMessage For="()=>registerModel.Email" class="text-danger" />
+            </div>
+
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="registerModel.Password" class="form-control" autocomplete="current-password"
+                           area-required="true" placeholder="password" />
+                <label for="password" class="form-label">Password</label>
+                <ValidationMessage For="()=>registerModel.Password" class="text-danger" />
+            </div>
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="registerModel.ConfirmPassword" class="form-control" autocomplete="current-password"
+                           area-required="true" placeholder="Confirm password" />
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <ValidationMessage For="()=>registerModel.ConfirmPassword" class="text-danger" />
+            </div>
+
+            <div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">
+                    Register
+
+                </button>
+            </div>
+            </EditForm>
+
+        </section>
+
+    </div>
+</div>
+
+
+
+
+
+@code {
+    string message="";
+
+    [SupplyParameterFromForm]
+    RegisterModel registerModel { get; set; } = new();
+
+    async Task RegisterAsync()
+    {
+        var appUser = new AppUser()
+            {
+                Fullname = registerModel.Fullname,
+                Email = registerModel.Email,
+                PasswordHash = registerModel.Password,
+                UserName = registerModel.Email
+            };
+
+        var result = await userManager.CreateAsync(appUser, registerModel.Password);
+
+        if(!result.Succeeded)
+        {
+            message = "Error occured while creating account";
+            return;
+        }
+        navManager.NavigateTo("/login");
+
+
+    }
+
+
+    public class RegisterModel
+    {
+        [Required]
+        public string Fullname { get; set; } = string.Empty;
+        [Required, EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
+
+        [Compare(nameof(Password)),Required]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}
