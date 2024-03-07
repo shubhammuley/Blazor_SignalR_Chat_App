@@ -1,4 +1,5 @@
 ﻿using BlazorChatWebApp.Authentication;
+using BlazorChatWebApp.Models;
 using ChatModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace BlazorChatWebApp.Data
 
         }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<AvailableUser> AvailableUsers { get; set; }
     }
 }
 
