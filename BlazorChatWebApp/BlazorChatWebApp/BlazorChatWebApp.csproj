@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ChatModels\ChatModels.csproj" />
     <ProjectReference Include="..\BlazorChatWebApp.Client\BlazorChatWebApp.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
