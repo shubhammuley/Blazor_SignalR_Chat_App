@@ -1,7 +1,15 @@
-﻿@page "/"
+﻿@page "/home"
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+    <Authorized>
+        <div class="card-header">
+            Welcome, [@context.User.Claims.Where(f => f.Type == System.Security.Claims.ClaimTypes.Name).Last().Value],
+            you can now join the chat...
+            </div>
+    </Authorized>
 
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 Welcome to your new app.
