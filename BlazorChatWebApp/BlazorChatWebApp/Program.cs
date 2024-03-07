@@ -1,9 +1,11 @@
+using BlazorChatWebApp.Authentication;
 using BlazorChatWebApp.ChatHubs;
 using BlazorChatWebApp.Client.ChatServices;
 
 using BlazorChatWebApp.Components;
 using BlazorChatWebApp.Data;
 using BlazorChatWebApp.Migrations.Repos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,18 @@ builder.Services.AddScoped<ChatRepo>();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ChatService>();
 
+builder.Services.AddIdentityCore<AppUser>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultScheme = IdentityConstants.ApplicationScheme;
+    o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+}
+    ).AddIdentityCookies();
 
 var app = builder.Build();
 
