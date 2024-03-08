@@ -54,5 +54,18 @@ namespace BlazorChatWebApp.Migrations.Repos
             }
             return list;
         }
+
+
+        public async Task RemoveUserAsync(string userId)
+        {
+            var user = await appDbContext.AvailableUsers.FirstOrDefaultAsync(
+                u => u.UserId == userId
+                );
+            if(user is not null)
+            {
+                appDbContext.AvailableUsers.Remove(user);
+                await appDbContext.SaveChangesAsync();
+            }
+        }
     }
 }

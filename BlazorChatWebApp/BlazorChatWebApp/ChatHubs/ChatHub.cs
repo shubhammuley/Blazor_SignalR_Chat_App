@@ -19,13 +19,25 @@ namespace BlazorChatWebApp.ChatHubs
             availableUser.ConnectionId = Context.ConnectionId;
             await chatRepo.AddAvailableUserAsync(availableUser);
 
-            var users = await chatRepo.GetAvailableUserAsync();
+            //var users = await chatRepo.GetAvailableUserAsync();
+            //var users = GetUsers();
             //notify all clients 
-            await Clients.All.SendAsync("NotifyAllClients", users);
+            await Clients.All.SendAsync("NotifyAllClients",await GetUsers());
         }
 
 
+        public async Task RemoveUserAsync(string userId)
+        {
+            await chatRepo.RemoveUserAsync(userId);
+            await Clients.All.SendAsync("NotifyAllClients", await GetUsers());
 
+        }
+
+        private async Task<List<AvailableUserDTO>> GetUsers()
+        {
+            var users = await chatRepo.GetAvailableUserAsync();
+            return users;
+        }
 
 
     }

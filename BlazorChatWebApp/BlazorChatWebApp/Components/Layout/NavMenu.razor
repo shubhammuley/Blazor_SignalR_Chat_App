@@ -1,4 +1,10 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@rendermode InteractiveServer
+@using BlazorChatWebApp.Migrations.Repos
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using Microsoft.AspNetCore.SignalR.Client
+@inject ChatRepo chatRepo
+
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -29,7 +35,7 @@
                 <div class="nav-item px-3">
                     <form action="Account/Logout" method="post">
                         <AntiforgeryToken />
-                        <button class="nav-link">
+                        <button class="nav-link" @onclick="LogOutClicked">
                             <spna class="bi bi-arrow-bar-left-nav-menu"></spna>Logout
                         </button>
                     </form>
@@ -60,3 +66,29 @@
     </nav>
 </div>
 
+@code{
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    private HubConnection hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(navManager.ToAbsoluteUri("/chathub")).Build();
+
+        await hubConnection.StartAsync();
+    }
+
+
+    async Task LogOutClicked()
+    {
+        string id = ((await AuthenticationState).User).Claims.
+        FirstOrDefault(c=> c.Type == ClaimTypes.NameIdentifier)!.Value;
+
+        await chatRepo.RemoveUserAsync(id);
+        await hubConnection.SendAsync("RemoveUserAsync", id);
+
+    }
+}
