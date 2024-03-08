@@ -1,5 +1,6 @@
 ﻿using BlazorChatWebApp.Migrations.Repos;
 using ChatModels;
+using ChatModels.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,15 +10,18 @@ namespace BlazorChatWebApp.Controllers
     [ApiController]
     public class ChatController(ChatRepo chatRepo) : ControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<List<Chat>>> GetChatAsync() =>
-            Ok(await chatRepo.GetChatAsync());
+        [HttpGet("group-chats")]
+        public async Task<IActionResult> GetGroupChatsAsync() =>
+            Ok(await chatRepo.GetGroupChatsAsync());
 
-
-
+       
         [HttpGet("users")]
-        public async Task<ActionResult<List<Chat>>> GetAvailableUsersAsync() =>
-            Ok(await chatRepo.GetAvailableUserAsync());
+        public async Task<IActionResult> GetUsersAsync() =>
+            Ok(await chatRepo.GetAvailableUsersAsync());
+
+        [HttpGet("individual")]
+        public async Task<IActionResult> GetIndividualChatsAsync(RequestChatDTO requestChatDTO) =>
+            Ok(await chatRepo.GetIndividualChatsAsync(requestChatDTO));
 
     }
 }

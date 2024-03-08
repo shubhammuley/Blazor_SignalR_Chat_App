@@ -1,5 +1,6 @@
 using BlazorChatWebApp.Authentication;
 using BlazorChatWebApp.ChatHubs;
+using BlazorChatWebApp.Client.AppState;
 using BlazorChatWebApp.Client.ChatServices;
 
 using BlazorChatWebApp.Components;
@@ -20,9 +21,11 @@ builder.Services.AddDbContext<AppDbContext>(
     o => o.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<AvailableUserState>();
 builder.Services.AddScoped<ChatRepo>();
+builder.Services.AddScoped<MyHubConnectionService>();
 builder.Services.AddSignalR();
-builder.Services.AddScoped<ChatService>();
+builder.Services.AddScoped<MyHubConnectionService>();
 
 builder.Services.AddIdentityCore<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>()

@@ -1,6 +1,10 @@
-﻿namespace ChatModels.DTOs
+﻿using System.ComponentModel;
+
+namespace ChatModels.DTOs
 {
-    public record AvailableUserDTO(
-        string UserId, string ConnectionId, string Fullname,
-        string Email);
+  public class AvailableUserDTO
+    {
+        public string? UserId { get; set; }
+        public string? Fullname { get; set; }
+    }
 }
