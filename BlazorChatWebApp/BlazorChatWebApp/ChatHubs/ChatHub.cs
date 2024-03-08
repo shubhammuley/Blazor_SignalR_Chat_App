@@ -19,7 +19,7 @@ namespace BlazorChatWebApp.ChatHubs
             availableUser.ConnectionId = Context.ConnectionId;
             await chatRepo.AddAvailableUserAsync(availableUser);
 
-            var users = chatRepo.GetAvailableUserAsync();
+            var users = await chatRepo.GetAvailableUserAsync();
             //notify all clients 
             await Clients.All.SendAsync("NotifyAllClients", users);
         }

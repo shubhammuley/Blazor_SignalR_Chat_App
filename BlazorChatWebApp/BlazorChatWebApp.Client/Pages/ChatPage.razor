@@ -16,22 +16,30 @@
 <div class="row">
 
     <div class="col-lg-2">
-        <ul class="list-group">
-            @if(AvailableUsers != null)
-            {
-                foreach(var u in AvailableUsers)
-                {
-                    <li class="list-group-item">@u.Fullname</li>
-                }
-            }
-        </ul>
+
+        <div class="card">
+            <div class="card-header text-success">Online Users</div>
+            <div class="card-body">
+                <ul class="list-group text-success">
+                    @if (AvailableUsers != null)
+                    {
+                        foreach (var u in AvailableUsers)
+                        {
+                            <li class="list-group-item text-success">@u.Fullname</li>
+                        }
+                    }
+                </ul>
+
+            </div>
+        </div>
+
     </div>
 
     <div class="col-ld-7">
         <div class="card">
             <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
                 <Authorized>
-                    <div class="card-header">Chat App [@context.User.Claims.Where(f=>f.Type == System.Security.Claims.ClaimTypes.Name).Last().Value]</div>
+                    <div class="card-header">Chat App [@context.User.Claims.Where(f => f.Type == System.Security.Claims.ClaimTypes.Name).Last().Value]</div>
                 </Authorized>
 
             </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
@@ -80,7 +88,7 @@
 @code {
 
     [CascadingParameter]
-    public Task<AuthenticationState>  AuthenticationState{ get; set; }
+    public Task<AuthenticationState> AuthenticationState { get; set; }
 
     public List<AvailableUserDTO> AvailableUsers { get; set; } = [];
 
@@ -108,7 +116,7 @@
          InvokeAsync(() => StateHasChanged());
      });
 
-      
+
         await _hubConnection.StartAsync();
 
         await GetUserAuthetication();
@@ -121,12 +129,12 @@
     {
         var user = (await AuthenticationState).User;
 
-        if(user.Identity!.IsAuthenticated == true)
+        if (user.Identity!.IsAuthenticated == true)
         {
             await _hubConnection!.SendAsync("AddAvailableUserAsync", new AvailableUser()
-            {
-                UserId = user.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier)!.Value
-            }           
+                {
+                    UserId = user.Claims.FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier)!.Value
+                }
             );
         }
     }
