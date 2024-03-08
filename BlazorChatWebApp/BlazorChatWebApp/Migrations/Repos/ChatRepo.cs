@@ -21,12 +21,11 @@ namespace BlazorChatWebApp.Migrations.Repos
 
         public async Task AddAvailableUserAsync(AvailableUser availableUser)
         {
-            var getUser = await appDbContext.
-                AvailableUsers.FirstOrDefaultAsync(
+            var getUser = await appDbContext.AvailableUsers.FirstOrDefaultAsync(
                 _ => _.UserId == availableUser.UserId
                 );
 
-            if(getUser is null)
+            if(getUser is not null)
             {
                 getUser.ConnectionId = availableUser.ConnectionId;
             }
