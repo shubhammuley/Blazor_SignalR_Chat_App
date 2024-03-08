@@ -1,8 +1,9 @@
 ﻿@page "/chat"
 @attribute [Authorize]
+@using ChatModels.DTOs
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
-@using BlazorChatWebApp.Client.DTOs
+
 @using BlazorChatWebApp.Client.ChatServices
 @using ChatModels
 @inject NavigationManager navigationManager

@@ -1,4 +1,5 @@
-﻿using BlazorChatWebApp.Client.Models;
+﻿
+using ChatModels.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;

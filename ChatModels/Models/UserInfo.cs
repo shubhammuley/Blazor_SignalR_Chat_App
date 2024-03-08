@@ -1,4 +1,5 @@
-﻿namespace BlazorChatWebApp.Client.Models
+﻿namespace ChatModels.Models
+
 {
     public class UserInfo
     {

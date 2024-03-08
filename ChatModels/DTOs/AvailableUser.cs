@@ -1,4 +1,4 @@
-﻿namespace BlazorChatWebApp.Client.DTOs
+﻿namespace ChatModels.DTOs
 {
     public class AvailableUser
     {

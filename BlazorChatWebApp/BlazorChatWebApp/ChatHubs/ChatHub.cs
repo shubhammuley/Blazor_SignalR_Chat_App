@@ -1,6 +1,6 @@
-﻿using BlazorChatWebApp.Client.DTOs;
-using BlazorChatWebApp.Migrations.Repos;
+﻿using BlazorChatWebApp.Migrations.Repos;
 using ChatModels;
+using ChatModels.DTOs;
 using Microsoft.AspNetCore.SignalR;
 
 namespace BlazorChatWebApp.ChatHubs
