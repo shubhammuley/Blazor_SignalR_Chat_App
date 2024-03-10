@@ -1,3 +1,64 @@
 ﻿@page "/individual-chat"
+@using BlazorChatWebApp.Client.AppState
+@using BlazorChatWebApp.Client.ChatServices
+@using ChatModels.DTOs
+@using ChatModels.Models
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
 @rendermode InteractiveWebAssembly
+@inject MyHubConnectionService HubConnectionService
+@inject AvailableUserState state
 
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> authenticationState { get; set; }
+    public List<IndividualChatDTO> IndividualChats { get; set; } = [];
+    private IndividualChat IndividualChatModel { get; set; } = new();
+    private HubConnection _hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = HubConnectionService.GetHubConnection();
+        _hubConnection.On<IndividualChatDTO>("ReceiveIndividualMessage", (individualChat) =>
+        {
+            IndividualChats.Add(individualChat);
+            InvokeAsync(() => StateHasChanged());
+        });
+
+        var httpClient = new HttpClient();
+        var user = new RequestChatDTO()
+            {
+                SenderId = ((await authenticationState).User).Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value,
+                ReceiverId = state.ReceiverId
+
+            };
+        var response = await httpClient.PostAsJsonAsync($"https://localhost:7130/api/chat/individual", user);
+        IndividualChats = await response.Content.ReadFromJsonAsync<List<IndividualChatDTO>>();
+
+
+    }
+
+    public async void SendIndividualChat()
+    {
+        IndividualChatModel.ReceiverId = state.ReceiverId;
+        IndividualChatModel.SenderId =
+        ((await authenticationState).User).Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
+
+        await _hubConnection!.SendAsync("AddIndividualChat", IndividualChatModel);
+
+        var data = new IndividualChatDTO()
+            {
+                SenderId = IndividualChatModel.SenderId,
+                ReceiverId = IndividualChatModel.ReceiverId,
+                message = IndividualChatModel.message,
+                Date = IndividualChatModel.Date,
+                SenderName = (await authenticationState).User.Identity!.Name,
+                ReceiverName = state.Fullname
+
+            };
+
+            IndividualChats.Add(data);
+            IndividualChatModel = new();
+    }
+}
