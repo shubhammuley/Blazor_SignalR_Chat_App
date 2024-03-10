@@ -82,7 +82,7 @@
         <EditForm Model="GroupChatModel" OnValidSubmit="SendChatToGroup">
             <DataAnnotationsValidator/>
             <InputTextArea @bind-Value="GroupChatModel.Message" class="form-control" placeholder="Message"/>
-            <button class="float-end btn btn-success mt-3" type="submit">
+            <button class="float-end btn btn-success mt-3" type="submit" @onclick="SendChatToGroup">
                 Send
             </button>
         </EditForm>
