@@ -19,7 +19,7 @@ namespace BlazorChatWebApp.Controllers
         public async Task<IActionResult> GetUsersAsync() =>
             Ok(await chatRepo.GetAvailableUsersAsync());
 
-        [HttpGet("individual")]
+        [HttpPost("individual")]
         public async Task<IActionResult> GetIndividualChatsAsync(RequestChatDTO requestChatDTO) =>
             Ok(await chatRepo.GetIndividualChatsAsync(requestChatDTO));
 

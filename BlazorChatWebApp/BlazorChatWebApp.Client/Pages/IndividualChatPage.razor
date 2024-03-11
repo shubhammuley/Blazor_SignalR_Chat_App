@@ -91,7 +91,7 @@
                 ReceiverId = state.ReceiverId
 
             };
-        var response = await httpClient.PostAsJsonAsync($"https://localhost:7130/api/chat/individual", user);
+        var response = await httpClient.PostAsJsonAsync("https://localhost:7130/api/chat/individual", user);
         IndividualChats = await response.Content.ReadFromJsonAsync<List<IndividualChatDTO>>();
 
 
