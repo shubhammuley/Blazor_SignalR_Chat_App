@@ -1,1 +1,1 @@
-Group and Individual Chat App using Blazor SignalR SQLite
+#Group and Individual Chat App using Blazor SignalR SQLite
